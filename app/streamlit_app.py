@@ -12,7 +12,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# OPENAPI_API_KEY = "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"
 
 # # From here down is all the StreamLit UI.
 st.set_page_config(page_title="Test", page_icon=":robot:")
