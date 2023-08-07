@@ -1,0 +1,12 @@
+**/app/data
+**/app/onenote_export
+**/app/notebooks
+google_photos_export
+old
+.ipynb_checkpoints
+.env
+NOTES.md
+.idea
+.DS_Store
+__pycache__
+*.pyc

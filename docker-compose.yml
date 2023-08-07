@@ -1,0 +1,48 @@
+---
+version: '3.4'
+
+services:
+  weaviate:
+    env_file: app/.env
+    command:
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8080'
+    - --scheme
+    - http
+    image: semitechnologies/weaviate
+    volumes:
+      - /var/weaviate_db:/var/lib/weaviate:rw
+    ports:
+    - 8080:8080
+    restart: on-failure:0
+    networks:
+      - weaviate_network
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: text2vec-openai
+      ENABLE_MODULES: text2vec-openai
+      OPENAI_APIKEY: ${OPENAI_API_KEY}
+      CLUSTER_HOSTNAME: 'node1'
+  app:
+    container_name: aiassist_app
+    build:
+      context: ./app
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/usr/src/app
+    depends_on:
+      - weaviate
+    networks:
+      - weaviate_network
+
+
+networks:
+  weaviate_network:
+    driver: bridge
+
+...
